@@ -1,6 +1,6 @@
 package satellite
 
-// Struct for holding satellite information during and before propagation
+// Satellite holds satellite information during and before propagation
 type Satellite struct {
 	Line1 string
 	Line2 string

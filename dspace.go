@@ -4,17 +4,17 @@ import (
 	"math"
 )
 
-// A struct returned from the dsinit function
+// DeepSpaceInitResult is the struct returned from the dsinit function
 type DeepSpaceInitResult struct {
 	em, argpm, inclm, mm, nm, nodem, irez, atime, d2201, d2211, d3210, d3222, d4410, d4422, d5220, d5232, d5421, d5433, dedt, didt, dmdt, dndt, dnodt, domdt, del1, del2, del3, xfact, xlamo, xli, xni float64
 }
 
-// A struct returned from the dspace function
+// DeepSpaceResult is returned from the dspace function
 type DeepSpaceResult struct {
 	atime, em, argpm, inclm, xli, mm, xni, nodem, dndt, nm float64
 }
 
-// this procedure provides deep space contributions to mean motion dot due to geopotential resonance with half day and one day orbits.
+// dsinit provides deep space contributions to mean motion dot due to geopotential resonance with half day and one day orbits.
 func dsinit(whichconst GravConst, cosim, emsq, argpo, s1, s2, s3, s4, s5, sinim, ss1, ss2, ss3, ss4, ss5, sz1, sz3, sz11, sz13, sz21, sz23, sz31, sz33, t, tc, gsto, mo, mdot, no, nodeo, nodedot, xpidot, z1, z3, z11, z13, z21, z23, z31, z33, ecco, eccsq, em, argpm, inclm, mm, nm, nodem, irez, atime, d2201, d2211, d3210, d3222, d4410, d4422, d5220, d5232, d5421, d5433, dedt, didt, dmdt, dnodt, domdt, del1, del2, del3, xfact, xlamo, xli, xni float64) (res DeepSpaceInitResult) {
 
 	var f220, f221, f311, f321, f322, f330, f441, f442, f522, f523, f542, f543, g200, g201, g211, g300, g310, g322, g410, g422, g520, g521, g532, g533, sini2, temp, temp1, theta, xno2, ainv2, aonv, cosisq, eoc float64
@@ -215,7 +215,7 @@ func dsinit(whichconst GravConst, cosim, emsq, argpo, s1, s2, s3, s4, s5, sinim,
 	return
 }
 
-// this procedure provides deep space contributions to mean elements for perturbing third body. these effects have been averaged over one revolution of the sun and moon. for earth resonance effects, the effects have been averaged over no revolutions of the satellite. (mean motion)
+// dspace provides deep space contributions to mean elements for perturbing third body. these effects have been averaged over one revolution of the sun and moon. for earth resonance effects, the effects have been averaged over no revolutions of the satellite. (mean motion)
 func dspace(irez, d2201, d2211, d3210, d3222, d4410, d4422, d5220, d5232, d5421, d5433, dedt, del1, del2, del3, didt, dmdt, dnodt, domdt, argpo, argpdot, t, tc, gsto, xfact, xlamo, no, atime, em, argpm, inclm, xli, mm, xni, nodem, nm float64) (result DeepSpaceResult) {
 	var delt, ft, theta, x2li, x2omi, xl, xldot, xnddt, xndt, xomi float64
 
@@ -314,12 +314,12 @@ func dspace(irez, d2201, d2211, d3210, d3222, d4410, d4422, d5220, d5232, d5421,
 	return
 }
 
-// A struct returned from the dpper function
+// DpperResult is returned from the dpper function
 type DpperResult struct {
 	ep, inclp, nodep, argpp, mp float64
 }
 
-// this procedure provides deep space long period periodic contributions to the mean elements. by design, these periodics are zero at epoch. this used to be dscom which included initialization, but it's really a recurring function.
+// dpper provides deep space long period periodic contributions to the mean elements. by design, these periodics are zero at epoch. this used to be dscom which included initialization, but it's really a recurring function.
 func dpper(satrec *Satellite, inclo float64, init string, ep, inclp, nodep, argpp, mp float64, opsmode string) (result DpperResult) {
 	e3 := satrec.e3
 	ee2 := satrec.ee2
@@ -454,12 +454,12 @@ func dpper(satrec *Satellite, inclo float64, init string, ep, inclp, nodep, argp
 	return
 }
 
-// A struct returned from the dscom function
+// DSComResults is returned from the dscom function
 type DSComResults struct {
 	snodm, cnodm, sinim, cosim, sinomm, cosomm, day, e3, ee2, em, emsq, gam, peo, pgho, pho, pinco, plo, rtemsq, se2, se3, sgh2, sgh3, sgh4, sh2, sh3, si2, si3, sl2, sl3, sl4, s1, s2, s3, s4, s5, s6, s7, ss1, ss2, ss3, ss4, ss5, ss6, ss7, sz1, sz2, sz3, sz11, sz12, sz13, sz21, sz22, sz23, sz31, sz32, sz33, xgh2, xgh3, xgh4, xh2, xh3, xi2, xi3, xl2, xl3, xl4, nm, z1, z2, z3, z11, z12, z13, z21, z22, z23, z31, z32, z33, zmol, zmos float64
 }
 
-// this procedure provides deep space common items used by both the secular and periodics subroutines. input is provided as shown. this routine used to be called dpper, but the functions inside weren't well organized.
+// dscom provides deep space common items used by both the secular and periodics subroutines. input is provided as shown. this routine used to be called dpper, but the functions inside weren't well organized.
 func dscom(epoch, ep, argpp, tc, inclp, nodep, np, e3, ee2, peo, pgho, pho, pinco, plo, se2, se3, sgh2, sgh3, sgh4, sh2, sh3, si2, si3, sl2, sl3, sl4, xgh2, xgh3, xgh4, xh2, xh3, xi2, xi3, xl2, xl3, xl4, zmol, zmos float64) (res DSComResults) {
 	var a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, betasq, cc, ctem, stem, x1, x2, x3, x4, x5, x6, x7, x8, xnodce, xnoi, zcosg, zsing, zcosgl, zsingl, zcosh, zsinh, zcoshl, zsinhl, zcosi, zsini, zcosil, zsinil, zx, zy, ss1, ss2, ss3, ss4, ss5, ss6, ss7, sz1, sz2, sz3, sz11, sz12, sz13, sz21, sz22, sz23, sz31, sz32, sz33, s1, s2, s3, s4, s5, s6, s7, z1, z2, z3, z11, z12, z13, z21, z22, z23, z31, z32, z33 float64
 

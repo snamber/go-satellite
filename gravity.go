@@ -1,17 +1,18 @@
 package satellite
 
 import (
-	"log"
+	"errors"
 	"math"
 )
 
-// Holds variables that are dependent upon selected gravity model
+// GravConst holds variables that are dependent upon selected gravity model
 type GravConst struct {
 	mu, radiusearthkm, xke, tumin, j2, j3, j4, j3oj2 float64
 }
 
-// Returns a GravConst with correct information on requested model provided through the name parameter
-func getGravConst(name string) (grav GravConst) {
+// getGravConst returns a GravConst with correct information on requested model provided through the name parameter
+func getGravConst(name string) (GravConst, error) {
+	grav := GravConst{}
 	switch name {
 	case "wgs72old":
 		grav.mu = 398600.79964
@@ -41,10 +42,8 @@ func getGravConst(name string) (grav GravConst) {
 		grav.j4 = -0.00000161098761
 		grav.j3oj2 = grav.j3 / grav.j2
 	default:
-		log.Fatal(name, "is not a valid gravity model")
+		return GravConst{}, errors.New("is not a valid gravity model")
 	}
 
-	return
+	return grav, nil
 }
-
-// Not the movie

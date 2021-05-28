@@ -4,7 +4,7 @@ import (
 	"math"
 )
 
-// this procedure initializes variables for sgp4.
+// sgp4init initializes variables for sgp4.
 func sgp4init(opsmode *string, epoch float64, satrec *Satellite) (position, velocity Vector3) {
 	var cc1sq, cc2, cc3, coef, coef1, cosio4, eeta, etasq, perige, pinvsq, psisq, qzms24, sfour, temp, temp1, temp2, temp3, temp4, tsi, xhdot1 float64
 
@@ -244,7 +244,7 @@ func sgp4init(opsmode *string, epoch float64, satrec *Satellite) (position, velo
 	return
 }
 
-// this procedure initializes the spg4 propagator. all the initialization is consolidated here instead of having multiple loops inside other routines.
+// initl initializes the spg4 propagator. all the initialization is consolidated here instead of having multiple loops inside other routines.
 func initl(satn int64, grav GravConst, ecco, epoch, inclo, noIn float64, methodIn, opsmode string) (ainv, no, ao, con41, con42, cosio, cosio2, eccsq, omeosq, posq, rp, rteosq, sinio, gsto float64) {
 	var ak, d1, adel, po float64
 
@@ -291,14 +291,14 @@ func initl(satn int64, grav GravConst, ecco, epoch, inclo, noIn float64, methodI
 	return
 }
 
-// Calculates position and velocity vectors for given time
+// Propagate calculates position and velocity vectors for given time
 func Propagate(sat Satellite, year int, month int, day, hours, minutes, seconds int) (position, velocity Vector3) {
 	j := JDay(year, month, day, hours, minutes, seconds)
 	m := (j - sat.jdsatepoch) * 1440
 	return sgp4(&sat, m)
 }
 
-// this procedure is the sgp4 prediction model from space command. this is an updated and combined version of sgp4 and sdp4, which were originally published separately in spacetrack report #3. this version follows the methodology from the aiaa paper (2006) describing the history and development of the code.
+// sgp4 is the sgp4 prediction model from space command. this is an updated and combined version of sgp4 and sdp4, which were originally published separately in spacetrack report #3. this version follows the methodology from the aiaa paper (2006) describing the history and development of the code.
 // satrec - initialized Satellite struct from sgp4init
 // tsince - time since epoch in minutes
 func sgp4(satrec *Satellite, tsince float64) (position, velocity Vector3) {
