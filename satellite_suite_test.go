@@ -281,10 +281,10 @@ func propagationTest(testCase PropagationTestCase) {
 			theoVel := Vector3{X: vx, Y: vy, Z: vz}
 
 			tsince, err8 := parseFloat(theoData[0])
-			expPos, expVel := sgp4(&satrec, tsince)
+			expPos, expVel, err9 := sgp4(&satrec, tsince)
 
 			It("Should produce accurate results for time "+theoData[0], func() {
-				for _, err := range []error{err1, err2, err3, err4, err5, err6, err7, err8} {
+				for _, err := range []error{err1, err2, err3, err4, err5, err6, err7, err8, err9} {
 					Expect(err).To(BeNil())
 				}
 

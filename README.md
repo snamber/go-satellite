@@ -1,5 +1,8 @@
 # satellite
-    import "github.com/joshuaferrara/go-satellite"
+
+```
+import "github.com/joshuaferrara/go-satellite"
+```
 
 ## Intro
 

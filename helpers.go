@@ -35,7 +35,6 @@ func ParseTLE(line1, line2, gravconst string) (Satellite, error) {
 	sat.Line1 = line1
 	sat.Line2 = line2
 
-	sat.Error = 0
 	sat.whichconst, err = getGravConst(gravconst)
 	if err != nil {
 		return Satellite{}, err

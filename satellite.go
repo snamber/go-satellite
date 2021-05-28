@@ -7,8 +7,6 @@ type Satellite struct {
 
 	satnum int64
 
-	Error      int64
-	ErrorStr   string
 	whichconst GravConst
 
 	epochyr    int64
